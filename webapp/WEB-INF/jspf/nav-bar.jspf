@@ -1,0 +1,36 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #e3f2fd;">
+    <div class="container">
+        <a class="navbar-brand" href="/"><fmt:message key="internet_provider"/></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="${request.contextPath}/internet"><fmt:message key="internet_page_title"/></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="${request.contextPath}/internet-tv"><fmt:message key="internet_tv_page_title"/></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="${request.contextPath}/television"><fmt:message key="television_page_title"/></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="${request.contextPath}/telephony"><fmt:message key="telephony_page_title"/></a>
+                </li>
+                <li><a class="nav-link" href="${request.contextPath}/cabinet"><fmt:message key="cabinet"/></a></li>
+                <li><a class="nav-link" href="${request.contextPath}/admin"><fmt:message key="admin"/></a></li>
+                <li><a class="nav-link" href="${request.contextPath}/login"><fmt:message key="login"/></a></li>
+                <li><a class="nav-link" href="${request.contextPath}/logout"><fmt:message key="logout"/></a></li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><fmt:message key="language"/></a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="#" onclick="window.location.href = current_url + '?lang=en'"><fmt:message key="switch-en"/></a></li>
+                        <li><a class="dropdown-item" href="#" onclick="window.location.href = current_url + '?lang=ru'"><fmt:message key="switch-ru"/></a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

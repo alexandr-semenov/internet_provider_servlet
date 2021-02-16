@@ -13,7 +13,6 @@ public class ConnectionPool {
     private static final Logger LOGGER = Logger.getLogger(ConnectionPool.class);
 
     private static ConnectionPool connectionPool = null;
-    private DataSource dataSource = null;
 
     public ConnectionPool() {
     }

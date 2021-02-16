@@ -1,0 +1,20 @@
+<div id="error-alert" class="alert alert-warning alert-dismissible col-md-2 alert-top" role="alert">
+    <div class="alert-body"></div>
+</div>
+
+<div id="success-alert" class="alert alert-success alert-dismissible col-md-2 alert-top" role="alert">
+    <div class="alert-body"></div>
+</div>
+
+<div id="test-alert-container">
+
+</div>
+
+
+
+<script>let current_url = location.protocol + '//' + location.host + location.pathname;</script>
+<script type="text/javascript" src="${request.contextPath}/js/jquery.js"></script>
+<script type="text/javascript" src="${request.contextPath}/js/bootstrap/bootstrap.min.js"></script>
+<script type="text/javascript" src="${request.contextPath}/js/slider/slick.min.js"></script>
+<script type="text/javascript" src="${request.contextPath}/js/functions.js"></script>
+<script type="text/javascript" src="${request.contextPath}/js/main.js"></script>

@@ -12,12 +12,12 @@ public class CommandContainer {
 
     static {
         commands.put("/login", new LoginCommand());
+        commands.put("/api/login", new ApiLoginCommand());
+        commands.put("/api-response", new ApiResponseCommand());
     }
 
     public static Command get(String commandName) {
         if (commandName == null || !commands.containsKey(commandName)) {
-            LOGGER.error("Command: " + commandName +  " not found");
-
             throw new RuntimeException("Command not found");
         }
 

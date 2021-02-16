@@ -9,6 +9,10 @@ public class JdbcDaoFactory extends DaoFactory {
         return new UserDaoImpl(getConnection());
     }
 
+    public RoleDaoImpl createRoleDao() {
+        return new RoleDaoImpl(getConnection());
+    }
+
     private Connection getConnection() {
         Connection connection = ConnectionPool.getInstance().getConnection();
         if (connection == null) {

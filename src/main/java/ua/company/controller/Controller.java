@@ -3,7 +3,6 @@ package ua.company.controller;
 import org.apache.log4j.Logger;
 import ua.company.controller.command.Command;
 import ua.company.controller.command.CommandContainer;
-import ua.company.exception.ApiException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -24,8 +23,7 @@ public class Controller extends HttpServlet {
 
     private void process(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Command command = CommandContainer.get(CommandContainer.getCommandName(request));
-
-        command.execute(request, response);
-
+        String forward = command.execute(request, response);
+        request.getRequestDispatcher(forward).forward(request, response);
     }
 }

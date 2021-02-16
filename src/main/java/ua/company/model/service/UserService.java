@@ -5,6 +5,9 @@ import ua.company.model.dao.DaoFactory;
 import ua.company.model.dao.UserDaoImpl;
 import ua.company.model.entity.User;
 
+import javax.servlet.http.HttpServletResponse;
+import java.util.Arrays;
+
 public class UserService {
     private final DaoFactory daoFactory = DaoFactory.getInstance();
 
@@ -13,7 +16,7 @@ public class UserService {
         User user = userDao.findByUsername(username);
 
         if (user == null) {
-            throw new ApiException("Couldn't find username");
+            throw new ApiException(Arrays.asList("username_and_password_not_found_error"), HttpServletResponse.SC_NOT_FOUND);
         }
 
         return user;

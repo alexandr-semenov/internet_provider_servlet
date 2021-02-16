@@ -5,6 +5,8 @@ public abstract class DaoFactory {
 
     public abstract UserDaoImpl createUserDao();
 
+    public abstract RoleDaoImpl createRoleDao();
+
     public static DaoFactory getInstance() {
         return new JdbcDaoFactory();
     }

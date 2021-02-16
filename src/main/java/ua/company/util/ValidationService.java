@@ -1,10 +1,10 @@
 package ua.company.util;
 
 import org.apache.log4j.Logger;
-import ua.company.connection.ConnectionPool;
 import ua.company.exception.ApiException;
 import ua.company.model.dto.ValidationDto;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
@@ -14,7 +14,7 @@ import java.util.Set;
 
 public class ValidationService {
     private static final Logger LOGGER = Logger.getLogger(ValidationService.class);
-    private Validator validator;
+    private final Validator validator;
 
     public ValidationService() {
         this.validator = Validation.buildDefaultValidatorFactory().getValidator();
@@ -30,7 +30,7 @@ public class ValidationService {
                 LOGGER.error(violation.getPropertyPath() + ": " + violation.getMessage());
             }
 
-            throw new ApiException(messages);
+            throw new ApiException(messages, HttpServletResponse.SC_BAD_REQUEST);
         }
 
         return true;

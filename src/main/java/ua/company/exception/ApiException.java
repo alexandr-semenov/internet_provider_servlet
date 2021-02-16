@@ -6,6 +6,8 @@ import java.util.List;
 public class ApiException extends ServletException {
     List<String> messages;
 
+    int statusCode;
+
     public ApiException() {
     }
 
@@ -13,8 +15,9 @@ public class ApiException extends ServletException {
         super(message);
     }
 
-    public ApiException(List<String> messages) {
+    public ApiException(List<String> messages, int statusCode) {
         this.messages = messages;
+        this.statusCode = statusCode;
     }
 
     public ApiException(String message, Throwable rootCause) {
@@ -27,5 +30,9 @@ public class ApiException extends ServletException {
 
     public List<String> getMessages() {
         return messages;
+    }
+
+    public int getStatusCode() {
+        return statusCode;
     }
 }
