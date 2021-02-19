@@ -16,7 +16,13 @@ public class UserService {
 
     public User getUserByUsername(String username) throws ApiException {
         UserDaoImpl userDao = daoFactory.createUserDao();
-        User user = userDao.findByUsername(username);
+        User user;
+
+        try {
+            user = userDao.findByUsername(username);
+        } catch (Exception e) {
+            throw new ApiException(Arrays.asList(e.getMessage()), HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        }
 
         if (user == null) {
             throw new ApiException(Arrays.asList("username_and_password_not_found_error"), HttpServletResponse.SC_NOT_FOUND);
@@ -32,16 +38,20 @@ public class UserService {
         try {
             users = userDao.findNotActivePaginatedUsers(size, offset);
         } catch (Exception e) {
-            throw new ApiException(Arrays.asList("Couldn't get active users"), HttpServletResponse.SC_NOT_FOUND);
+            throw new ApiException(Arrays.asList(e.getMessage()), HttpServletResponse.SC_NOT_FOUND);
         }
 
         return users;
     }
 
-    public int getTotalNotActiveUsers() {
+    public int getTotalNotActiveUsers() throws ApiException {
         UserDaoImpl userDao = daoFactory.createUserDao();
 
-        return userDao.findTotalNotActiveUsers();
+        try {
+            return userDao.findTotalNotActiveUsers();
+        } catch (Exception e) {
+            throw new ApiException(Arrays.asList(e.getMessage()), HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        }
     }
 
     public boolean activateUserById(Long id) throws ApiException {

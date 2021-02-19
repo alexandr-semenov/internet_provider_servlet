@@ -33,7 +33,7 @@ public class UserDaoImpl implements UserDao {
         this.roleService = new RoleService();
     }
 
-    public User findByUsername(String username) {
+    public User findByUsername(String username) throws DBException {
         User user = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -50,6 +50,7 @@ public class UserDaoImpl implements UserDao {
 
         } catch (SQLException | ApiException e) {
             LOGGER.error(e.getMessage());
+            throw new DBException("get_user_error");
         } finally {
             close(resultSet);
             close(preparedStatement);
@@ -59,7 +60,7 @@ public class UserDaoImpl implements UserDao {
         return user;
     }
 
-    public List<UserDto> findNotActivePaginatedUsers(int size, int offset) {
+    public List<UserDto> findNotActivePaginatedUsers(int size, int offset) throws DBException {
         List<UserDto> users = new ArrayList<>();
 
         PreparedStatement preparedStatement = null;
@@ -78,6 +79,7 @@ public class UserDaoImpl implements UserDao {
             }
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
+            throw new DBException("get_not_active_user_errors");
         } finally {
             close(resultSet);
             close(preparedStatement);
@@ -87,7 +89,7 @@ public class UserDaoImpl implements UserDao {
         return users;
     }
 
-    public int findTotalNotActiveUsers() {
+    public int findTotalNotActiveUsers() throws DBException {
         int total = 0;
         PreparedStatement preparedStatement;
         ResultSet resultSet = null;
@@ -103,6 +105,7 @@ public class UserDaoImpl implements UserDao {
             }
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
+            throw new DBException("total_users_error");
         } finally {
             close(resultSet);
             close(connection);
