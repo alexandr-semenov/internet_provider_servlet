@@ -28,7 +28,10 @@ public class ErrorHandlerServlet extends HttpServlet {
         Locale locale = (Locale) request.getSession().getAttribute("locale");
         ResourceBundle bundle = ResourceBundle.getBundle("lang/res", locale);
 
-        List<String> translatedMessages = apiException.getMessages().stream().map(bundle::getString).collect(Collectors.toList());
+        List<String> translatedMessages = apiException
+                .getMessages()
+                .stream()
+                .map(bundle::getString).collect(Collectors.toList());
 
         ApiResponse apiResponse = new ApiResponse(apiException.getStatusCode(), translatedMessages);
         request.setAttribute(Path.API_RESPONSE_ATTRIBUTE, apiResponse);

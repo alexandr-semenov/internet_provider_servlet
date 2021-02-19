@@ -65,12 +65,29 @@ $( document ).ready(function () {
         });
     });
 
+    $("#logout").on("click", function (e) {
+        e.preventDefault();
+        let url = $(this).attr("href");
+
+        $.ajax({
+            type: "GET",
+            url: url,
+            success: function (response) {
+                window.location.href = response.message;
+            },
+        });
+    });
+
     $(".activate").on("click", function () {
-        let url = "/admin/activate-user/" + $(this).attr("attr-user");
+        let url = "/admin/activate-user";
+        let userId = $(this).attr("attr-user");
 
         $.ajax({
             url: url,
-            method: "GET",
+            method: "POST",
+            dataType: "json",
+            contentType: 'application/json',
+            data: JSON.stringify({id: userId}),
             success: function (response) {
                 showSuccessAlert(response.message);
 

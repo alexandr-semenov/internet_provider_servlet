@@ -3,7 +3,7 @@ package ua.company.response;
 import java.util.List;
 
 public class ApiResponse {
-    private int status;
+    private final int status;
     private String message;
     private List<String> errors;
 

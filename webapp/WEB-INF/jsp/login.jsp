@@ -9,7 +9,7 @@
 <html>
 <%@ include file="/WEB-INF/jspf/head.jspf" %>
 <body>
-    <%@ include file="/WEB-INF/jspf/nav-bar.jspf" %>
+    <%@ include file="/WEB-INF/jspf/nav_bar.jspf" %>
     <div class="container">
         <div class="row">
             <div class="col-sm">

@@ -75,6 +75,16 @@
         <servlet-name>Controller</servlet-name>
     </filter-mapping>
 
+    <filter>
+        <filter-name>CommandAccessFilter</filter-name>
+        <filter-class>ua.company.filter.CommandAccessFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>CommandAccessFilter</filter-name>
+        <servlet-name>Controller</servlet-name>
+    </filter-mapping>
+
 </web-app>
 
 

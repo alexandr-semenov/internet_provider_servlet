@@ -5,7 +5,7 @@ import org.mindrot.jbcrypt.BCrypt;
 import ua.company.constants.Path;
 import ua.company.constants.RoleName;
 import ua.company.exception.ApiException;
-import ua.company.model.dto.UserDto;
+import ua.company.model.dto.user.UserDto;
 import ua.company.model.entity.Role;
 import ua.company.model.entity.User;
 import ua.company.model.service.UserService;
@@ -24,9 +24,9 @@ public class ApiLoginCommand extends Command {
     private final UserService userService;
     private final ValidationService validationService;
 
-    public ApiLoginCommand() {
-        this.userService = new UserService();
-        this.validationService = new ValidationService();
+    public ApiLoginCommand(UserService userService, ValidationService validationService) {
+        this.userService = userService;
+        this.validationService = validationService;
     }
 
     @Override
