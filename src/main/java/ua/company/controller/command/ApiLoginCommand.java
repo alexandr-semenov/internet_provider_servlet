@@ -31,7 +31,7 @@ public class ApiLoginCommand extends Command {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        String forward = "";
+        String forward = null;
         HttpSession session = request.getSession();
 
         String requestData = request.getReader().lines().collect(Collectors.joining());

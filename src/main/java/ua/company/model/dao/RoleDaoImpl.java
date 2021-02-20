@@ -1,13 +1,13 @@
 package ua.company.model.dao;
 
 import org.apache.log4j.Logger;
+import ua.company.exception.DBException;
 import ua.company.model.entity.Role;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 
 public class RoleDaoImpl implements RoleDao {
     private static final Logger LOGGER = Logger.getLogger(RoleDaoImpl.class);
@@ -20,17 +20,11 @@ public class RoleDaoImpl implements RoleDao {
     public RoleDaoImpl(Connection connection) {
         this.connection = connection;
     }
-
-    @Override
-    public void create(Role entity) {
-
-    }
-
     @Override
     public Role findById(int id) {
         Role role = null;
-        PreparedStatement preparedStatement;
-        ResultSet resultSet;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
 
         final String query = "SELECT * FROM role WHERE id = ?";
 
@@ -45,26 +39,43 @@ public class RoleDaoImpl implements RoleDao {
 
         } catch (SQLException e) {
             LOGGER.error(e.getMessage());
+        } finally {
+            close(preparedStatement);
+            close(resultSet);
+            close(connection);
+        }
+
+        return role;
+    }
+
+    public Role findByName(String name) throws SQLException, DBException {
+        Role role = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        final String query = "SELECT * FROM role WHERE name = ?";
+
+        try {
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, name);
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                role = extractRoleFromResultSet(resultSet);
+            }
+
+        } catch (SQLException e) {
+            connection.rollback();
+            LOGGER.error(e.getMessage());
+            throw new DBException("get_role_error");
+        } finally {
+            close(preparedStatement);
+            close(resultSet);
         }
 
         return role;
     }
 
     @Override
-    public List<Role> findAll() {
-        return null;
-    }
-
-    @Override
-    public void update(Role entity) {
-
-    }
-
-    @Override
-    public void delete(int id) {
-
-    }
-
     public void close(AutoCloseable autoCloseable) {
         if (autoCloseable != null) {
             try {

@@ -1,23 +1,22 @@
 package ua.company.model.dao;
 
 import org.apache.log4j.Logger;
+import ua.company.constants.RoleName;
 import ua.company.exception.ApiException;
 import ua.company.exception.DBException;
+import ua.company.model.dto.SubscriptionDto;
 import ua.company.model.dto.user.UserDto;
+import ua.company.model.dto.user.UserIdDto;
+import ua.company.model.entity.Role;
 import ua.company.model.entity.User;
 import ua.company.model.service.RoleService;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class UserDaoImpl implements UserDao {
     private static final Logger LOGGER = Logger.getLogger(UserDaoImpl.class);
-
-    private final RoleService roleService;
 
     private static final String ID = "id";
     private static final String USERNAME = "username";
@@ -26,11 +25,18 @@ public class UserDaoImpl implements UserDao {
     private static final String ROLE_ID = "role_id";
     private static final String TOTAL = "total";
 
+    private RoleService roleService = null;
     private final Connection connection;
+    private  RoleDaoImpl roleDao;
 
-    public UserDaoImpl(Connection connection) {
+    public UserDaoImpl(Connection connection, RoleDaoImpl roleDao) {
         this.connection = connection;
-        this.roleService = new RoleService();
+        this.roleDao = roleDao;
+    }
+
+    public UserDaoImpl(Connection connection, RoleService roleService) {
+        this.connection = connection;
+        this.roleService = roleService;
     }
 
     public User findByUsername(String username) throws DBException {
@@ -91,7 +97,7 @@ public class UserDaoImpl implements UserDao {
 
     public int findTotalNotActiveUsers() throws DBException {
         int total = 0;
-        PreparedStatement preparedStatement;
+        PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
 
         final String query = "SELECT COUNT(id) total FROM user WHERE active = 0";
@@ -108,6 +114,7 @@ public class UserDaoImpl implements UserDao {
             throw new DBException("total_users_error");
         } finally {
             close(resultSet);
+            close(preparedStatement);
             close(connection);
         }
 
@@ -132,40 +139,50 @@ public class UserDaoImpl implements UserDao {
         }
     }
 
+    public UserIdDto create(SubscriptionDto subscriptionDto) throws DBException, SQLException {
+        UserIdDto userIdDto = null;
+        Role role = roleDao.findByName(RoleName.ROLE_USER);
+
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        final String query = "INSERT INTO user (username, password, active, role_id) VALUES(?, ?, ?, ?)";
+
+        try {
+            preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            preparedStatement.setString(1, subscriptionDto.getUsername());
+            preparedStatement.setString(2, subscriptionDto.getPassword());
+            preparedStatement.setInt(3, 0);
+            preparedStatement.setLong(4, role.getId());
+
+            preparedStatement.executeUpdate();
+            resultSet = preparedStatement.getGeneratedKeys();
+
+            if (resultSet.next()) {
+                userIdDto = extractUserIdDtoFromResultSet(resultSet);
+            }
+        } catch (SQLException e) {
+            connection.rollback();
+            LOGGER.error(e.getMessage());
+            throw new DBException("create_user_error");
+        } finally {
+            close(resultSet);
+            close(preparedStatement);
+        }
+
+        return userIdDto;
+    }
+
     @Override
     public User findById(int id) {
         return null;
     }
 
-    @Override
-    public List<User> findAll() {
-        return null;
-    }
 
-    @Override
-    public void create(User entity) {
+    private UserIdDto extractUserIdDtoFromResultSet(ResultSet resultSet) throws SQLException {
+        UserIdDto userIdDto = new UserIdDto();
+        userIdDto.setId(resultSet.getLong(1));
 
-    }
-
-    @Override
-    public void update(User entity) {
-
-    }
-
-    @Override
-    public void delete(int id) {
-
-    }
-
-    public void close(AutoCloseable autoCloseable) {
-        if (autoCloseable != null) {
-            try {
-                autoCloseable.close();
-            } catch (Exception e) {
-                LOGGER.error(e.getMessage());
-                throw new IllegalStateException("Cannot close " + autoCloseable);
-            }
-        }
+        return userIdDto;
     }
 
     private UserDto extractUserDtoFromResultSet(ResultSet resultSet) throws SQLException {
@@ -186,5 +203,17 @@ public class UserDaoImpl implements UserDao {
         user.setRole(roleService.getRoleById(resultSet.getInt(ROLE_ID)));
 
         return user;
+    }
+
+    @Override
+    public void close(AutoCloseable autoCloseable) {
+        if (autoCloseable != null) {
+            try {
+                autoCloseable.close();
+            } catch (Exception e) {
+                LOGGER.error(e.getMessage());
+                throw new IllegalStateException("Cannot close " + autoCloseable);
+            }
+        }
     }
 }

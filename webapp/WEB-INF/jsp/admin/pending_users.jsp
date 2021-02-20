@@ -34,9 +34,9 @@
                             <tbody>
                                 <c:forEach items="${users}" var="user">
                                     <tr>
-                                        <td>${user.id}</td>
-                                        <td>${user.username}</td>
-                                        <td>${user.active}</td>
+                                        <td valign="middle">${user.id}</td>
+                                        <td valign="middle">${user.username}</td>
+                                        <td valign="middle">${user.active}</td>
                                         <td>
                                             <button class="activate btn btn-info text-white" attr-user="${user.id}">Activate
                                             </button>

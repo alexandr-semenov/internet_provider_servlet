@@ -76,3 +76,7 @@
     border-color: #0dcaf0 !important;
     color: #fff !important;
 }
+
+.slick-slide{
+    height: auto !important;
+}
