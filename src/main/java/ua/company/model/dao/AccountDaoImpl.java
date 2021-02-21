@@ -9,7 +9,11 @@ import java.sql.*;
 
 public class AccountDaoImpl implements AccountDao {
     private static final Logger LOGGER = Logger.getLogger(AccountDaoImpl.class);
-    private Connection connection;
+
+    private static final String ID = "id";
+    private static final String AMOUNT = "amount";
+
+    private final Connection connection;
 
     public AccountDaoImpl(Connection connection) {
         this.connection = connection;
@@ -37,9 +41,43 @@ public class AccountDaoImpl implements AccountDao {
         return true;
     }
 
+    public Account findByUser(Long userId) throws SQLException, DBException {
+        Account account = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        final String query = "SELECT * FROM account WHERE user_id = ?";
+
+        try {
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setLong(1, userId);
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                account = extractAccountFromResultSet(resultSet);
+            }
+        } catch (SQLException e) {
+            connection.rollback();
+            LOGGER.error(e.getMessage());
+            throw new DBException("get_account_error");
+        } finally {
+            close(resultSet);
+            close(preparedStatement);
+        }
+
+        return account;
+    }
+
     @Override
     public Account findById(int id) {
         return null;
+    }
+
+    private Account extractAccountFromResultSet(ResultSet resultSet) throws SQLException {
+        Account account = new Account();
+        account.setId(resultSet.getLong(ID));
+        account.setAmount(resultSet.getDouble(AMOUNT));
+
+        return account;
     }
 
     @Override

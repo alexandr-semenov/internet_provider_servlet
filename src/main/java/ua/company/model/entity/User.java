@@ -11,6 +11,10 @@ public class User {
 
     private Role role;
 
+    private Subscription subscription;
+
+    private Account account;
+
     public User() {
     }
 
@@ -58,5 +62,21 @@ public class User {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public Subscription getSubscription() {
+        return subscription;
+    }
+
+    public void setSubscription(Subscription subscription) {
+        this.subscription = subscription;
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public void setAccount(Account account) {
+        this.account = account;
     }
 }

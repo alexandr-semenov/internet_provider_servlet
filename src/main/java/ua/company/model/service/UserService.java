@@ -24,10 +24,6 @@ public class UserService {
             throw new ApiException(Arrays.asList(e.getMessage()), HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
 
-        if (user == null) {
-            throw new ApiException(Arrays.asList("username_and_password_not_found_error"), HttpServletResponse.SC_NOT_FOUND);
-        }
-
         return user;
     }
 

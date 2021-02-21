@@ -2,7 +2,6 @@ package ua.company.model.dao;
 
 import ua.company.connection.ConnectionPool;
 import ua.company.exception.ApiException;
-import ua.company.model.service.RoleService;
 
 import javax.servlet.http.HttpServletResponse;
 import java.sql.Connection;
@@ -10,7 +9,13 @@ import java.util.Arrays;
 
 public class JdbcDaoFactory extends DaoFactory {
     public UserDaoImpl createUserDao() throws ApiException {
-        return new UserDaoImpl(getConnection(), new RoleService());
+        Connection connection = getConnection();
+        return new UserDaoImpl(
+                connection,
+                new RoleDaoImpl(connection),
+                new SubscriptionDaoImpl(connection, new TariffDaoImpl(connection)),
+                new AccountDaoImpl(connection)
+        );
     }
 
     public RoleDaoImpl createRoleDao() throws ApiException {

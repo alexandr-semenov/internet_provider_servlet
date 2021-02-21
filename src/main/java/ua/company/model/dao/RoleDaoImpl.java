@@ -42,7 +42,6 @@ public class RoleDaoImpl implements RoleDao {
         } finally {
             close(preparedStatement);
             close(resultSet);
-            close(connection);
         }
 
         return role;

@@ -14,11 +14,21 @@ import java.util.List;
 
 public class SubscriptionDaoImpl implements SubscriptionDao {
     private static final Logger LOGGER = Logger.getLogger(SubscriptionDaoImpl.class);
-    private final UserDaoImpl userDao;
-    private final AccountDaoImpl accountDao;
+
+    private static final String ID = "id";
+    private static final String PRICE = "price";
+    private static final String STATUS = "status";
+
+    private UserDaoImpl userDao;
+    private AccountDaoImpl accountDao;
     private final TariffDaoImpl tariffDao;
     private SubscriptionTariffDao subscriptionTariffDao;
     private final Connection connection;
+
+    public SubscriptionDaoImpl(Connection connection, TariffDaoImpl tariffDao) {
+        this.connection = connection;
+        this.tariffDao = tariffDao;
+    }
 
     public SubscriptionDaoImpl(
             UserDaoImpl userDao,
@@ -75,9 +85,45 @@ public class SubscriptionDaoImpl implements SubscriptionDao {
         return true;
     }
 
+    public Subscription findByUserId(Long userId) throws SQLException, DBException {
+        Subscription subscription = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        final String query = "SELECT * FROM subscription WHERE user_id = ?";
+
+        try {
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setLong(1, userId);
+            resultSet = preparedStatement.executeQuery();
+
+            if(resultSet.next()) {
+                subscription = extractSubscriptionFromResultSet(resultSet);
+            }
+        } catch (SQLException e) {
+            connection.rollback();
+            LOGGER.error(e.getMessage());
+            throw new DBException("get_subscription_error");
+        } finally {
+            close(resultSet);
+            close(preparedStatement);
+        }
+
+        return subscription;
+    }
+
     @Override
     public Subscription findById(int id) {
         return null;
+    }
+
+    private Subscription extractSubscriptionFromResultSet(ResultSet resultSet) throws SQLException, DBException {
+        Subscription subscription = new Subscription();
+        subscription.setId(resultSet.getLong(ID));
+        subscription.setPrice(resultSet.getDouble(PRICE));
+        subscription.setStatus(Subscription.Status.valueOf(resultSet.getString(STATUS)));
+        subscription.setTariffs(tariffDao.findTariffsBySubscription(resultSet.getLong(ID)));
+
+        return subscription;
     }
 
     @Override

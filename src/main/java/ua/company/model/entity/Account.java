@@ -1,7 +1,7 @@
 package ua.company.model.entity;
 
 public class Account {
-    private int id;
+    private Long id;
 
     private Double amount;
 
@@ -10,11 +10,11 @@ public class Account {
     public Account() {
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

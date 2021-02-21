@@ -16,7 +16,7 @@
                 <div class="card border-info banner-height">
                     <div class="card-img-overlay">
                         <div class="align-self-center banner-parent">
-                            <h3 class="card-text text-center banner-child text-info"><fmt:message key="${login}"/></h3>
+                            <h3 class="card-text text-center banner-child text-info"><fmt:message key="login"/></h3>
                         </div>
                     </div>
                 </div>
@@ -24,7 +24,7 @@
         </div>
         <div class="row">
             <div class="col-sm-4 mx-auto">
-                <form id="login-form" action="/api/login">
+                <form id="login-form" action="/login">
                     <div class="mb-3">
                         <input id="username" class="form-control border-info text-info" placeholder="<fmt:message key="username_placeholder"/>" type="text" name="username" value="">
                     </div>

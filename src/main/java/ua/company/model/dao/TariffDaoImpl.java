@@ -7,7 +7,10 @@ import ua.company.model.dto.tariff.TariffIdDto;
 import ua.company.model.dto.tariff.TariffPriceDto;
 import ua.company.model.entity.Tariff;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -113,6 +116,42 @@ public class TariffDaoImpl implements TariffDao {
         }
 
         return tariffs;
+    }
+
+    public List<Tariff> findTariffsBySubscription(Long subscriptionId) throws SQLException, DBException {
+        List<Tariff> tariffs = new ArrayList<>();
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        String query = "SELECT t.id, t.name, t.description, t.price FROM subscription s LEFT JOIN subscription_tariff st ON s.id = st.subscription_id LEFT JOIN tariff t ON st.tariff_id = t.id WHERE s.id = ?";
+
+        try {
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setLong(1, subscriptionId);
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                tariffs.add(extractTariffCabinetFromResultSet(resultSet));
+            }
+        } catch (SQLException e) {
+            connection.rollback();
+            LOGGER.error(e.getMessage());
+            throw new DBException("tariff_not_found_exception");
+        } finally {
+            close(resultSet);
+            close(preparedStatement);
+        }
+
+        return tariffs;
+    }
+
+    private Tariff extractTariffCabinetFromResultSet(ResultSet resultSet) throws SQLException {
+        Tariff tariffCabinet = new Tariff();
+        tariffCabinet.setId(resultSet.getLong(ID));
+        tariffCabinet.setName(resultSet.getString(NAME));
+        tariffCabinet.setDescription(resultSet.getString(DESCRIPTION));
+        tariffCabinet.setPrice(resultSet.getDouble(PRICE));
+
+        return tariffCabinet;
     }
 
     private TariffPriceDto extractTariffPriceDtoFromResultSet(ResultSet resultSet) throws SQLException {

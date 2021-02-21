@@ -9,7 +9,6 @@ import ua.company.model.dto.user.UserDto;
 import ua.company.model.dto.user.UserIdDto;
 import ua.company.model.entity.Role;
 import ua.company.model.entity.User;
-import ua.company.model.service.RoleService;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -25,18 +24,21 @@ public class UserDaoImpl implements UserDao {
     private static final String ROLE_ID = "role_id";
     private static final String TOTAL = "total";
 
-    private RoleService roleService = null;
     private final Connection connection;
-    private  RoleDaoImpl roleDao;
+    private final RoleDaoImpl roleDao;
+    private SubscriptionDaoImpl subscriptionDao = null;
+    private AccountDaoImpl accountDao;
 
     public UserDaoImpl(Connection connection, RoleDaoImpl roleDao) {
         this.connection = connection;
         this.roleDao = roleDao;
     }
 
-    public UserDaoImpl(Connection connection, RoleService roleService) {
+    public UserDaoImpl(Connection connection, RoleDaoImpl roleDao, SubscriptionDaoImpl subscriptionDao, AccountDaoImpl accountDao) {
         this.connection = connection;
-        this.roleService = roleService;
+        this.roleDao = roleDao;
+        this.subscriptionDao = subscriptionDao;
+        this.accountDao = accountDao;
     }
 
     public User findByUsername(String username) throws DBException {
@@ -46,6 +48,7 @@ public class UserDaoImpl implements UserDao {
         final String query = "SELECT * FROM user WHERE username = ?";
 
         try {
+            connection.setAutoCommit(false);
             preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, username);
             resultSet = preparedStatement.executeQuery();
@@ -54,6 +57,7 @@ public class UserDaoImpl implements UserDao {
                 user = extractUserFromResultSet(resultSet);
             }
 
+            connection.commit();
         } catch (SQLException | ApiException e) {
             LOGGER.error(e.getMessage());
             throw new DBException("get_user_error");
@@ -194,13 +198,15 @@ public class UserDaoImpl implements UserDao {
         return user;
     }
 
-    private User extractUserFromResultSet(ResultSet resultSet) throws SQLException, ApiException {
+    private User extractUserFromResultSet(ResultSet resultSet) throws SQLException, ApiException, DBException {
         User user = new User();
         user.setId(resultSet.getLong(ID));
         user.setUsername(resultSet.getString(USERNAME));
         user.setPassword(resultSet.getString(PASSWORD));
         user.setActive(resultSet.getBoolean(ACTIVE));
-        user.setRole(roleService.getRoleById(resultSet.getInt(ROLE_ID)));
+        user.setRole(roleDao.findById(resultSet.getInt(ROLE_ID)));
+        user.setSubscription(subscriptionDao.findByUserId(resultSet.getLong(ID)));
+        user.setAccount(accountDao.findByUser(resultSet.getLong(ID)));
 
         return user;
     }

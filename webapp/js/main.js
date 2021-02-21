@@ -15,7 +15,6 @@ $( document ).ready(function () {
             data[n['name']] = n['value'];
         });
 
-
         let selectedOptions = $("#tariffAllSelect").val();
         data["tariffs"] = [];
         $(selectedOptions).each( function (index, value) {

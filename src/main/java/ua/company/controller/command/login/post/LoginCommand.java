@@ -1,9 +1,10 @@
-package ua.company.controller.command;
+package ua.company.controller.command.login.post;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.mindrot.jbcrypt.BCrypt;
 import ua.company.constants.Path;
 import ua.company.constants.RoleName;
+import ua.company.controller.command.Command;
 import ua.company.exception.ApiException;
 import ua.company.model.dto.user.UserDto;
 import ua.company.model.entity.Role;
@@ -20,11 +21,11 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
-public class ApiLoginCommand extends Command {
+public class LoginCommand extends Command {
     private final UserService userService;
     private final ValidationService validationService;
 
-    public ApiLoginCommand(UserService userService, ValidationService validationService) {
+    public LoginCommand(UserService userService, ValidationService validationService) {
         this.userService = userService;
         this.validationService = validationService;
     }
@@ -42,6 +43,11 @@ public class ApiLoginCommand extends Command {
         validationService.validate(userDto);
 
         User user = userService.getUserByUsername(userDto.getUsername());
+
+        if (user == null) {
+            throw new ApiException(Arrays.asList("username_and_password_not_found_error"), HttpServletResponse.SC_NOT_FOUND);
+        }
+
         boolean passwordCheck = BCrypt.checkpw(userDto.getPassword(), user.getPassword());
 
         if (!passwordCheck) {

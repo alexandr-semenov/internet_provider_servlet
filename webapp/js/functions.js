@@ -1,12 +1,3 @@
-function clearOptions(select) {
-    select.find('option').remove();
-}
-
-function addOptionsToSelect(select, response) {
-    $.each(response, function (index, value) {
-        select.append('<option value="'+ value.id +'">' + value.name + '</option>');
-    });
-}
 
 function clearTbody(tbody) {
     tbody.empty();

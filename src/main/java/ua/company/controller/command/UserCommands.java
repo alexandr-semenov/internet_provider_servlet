@@ -10,7 +10,7 @@ public class UserCommands {
 
     static {
         commands = Arrays.asList(
-                Path.COMMAND_CABINET, "/cabinet/deposit"
+                Path.COMMAND_CABINET, Path.COMMAND_CABINET_DEPOSIT
         );
     }
 
