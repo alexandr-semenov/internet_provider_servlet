@@ -2,7 +2,6 @@ package ua.company.model.dao;
 
 import org.apache.log4j.Logger;
 import ua.company.exception.DBException;
-import ua.company.model.entity.Tariff;
 import ua.company.model.entity.TariffOption;
 
 import java.sql.Connection;
@@ -59,12 +58,14 @@ public class TariffOptionImpl implements TariffOptionDao {
     }
 
     @Override
-    public TariffOption findById(int id) {
-        return null;
-    }
-
-    @Override
     public void close(AutoCloseable autoCloseable) {
-
+        if (autoCloseable != null) {
+            try {
+                autoCloseable.close();
+            } catch (Exception e) {
+                LOGGER.error(e.getMessage());
+                throw new IllegalStateException("Cannot close " + autoCloseable);
+            }
+        }
     }
 }

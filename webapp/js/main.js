@@ -131,7 +131,7 @@ $( document ).ready(function () {
 
     $("#editTariffProductSelect").on("change", function () {
         let element = $(this).find('option:selected');
-        let url = "/product/" + element.val();
+        let url = "/product?id=" + element.val();
 
         $.ajax({
             url: url,

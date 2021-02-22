@@ -20,7 +20,7 @@ public class RoleDaoImpl implements RoleDao {
     public RoleDaoImpl(Connection connection) {
         this.connection = connection;
     }
-    @Override
+
     public Role findById(int id) {
         Role role = null;
         PreparedStatement preparedStatement = null;
@@ -74,6 +74,14 @@ public class RoleDaoImpl implements RoleDao {
         return role;
     }
 
+    private Role extractRoleFromResultSet(ResultSet resultSet) throws SQLException {
+        Role role = new Role();
+        role.setId(resultSet.getLong(ID));
+        role.setName(resultSet.getString(NAME));
+
+        return role;
+    }
+
     @Override
     public void close(AutoCloseable autoCloseable) {
         if (autoCloseable != null) {
@@ -84,13 +92,5 @@ public class RoleDaoImpl implements RoleDao {
                 throw new IllegalStateException("Cannot close " + autoCloseable);
             }
         }
-    }
-
-    private Role extractRoleFromResultSet(ResultSet resultSet) throws SQLException {
-        Role role = new Role();
-        role.setId(resultSet.getLong(ID));
-        role.setName(resultSet.getString(NAME));
-
-        return role;
     }
 }

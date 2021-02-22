@@ -17,6 +17,8 @@ public final class Path {
     public final static String COMMAND_CABINET = "/cabinet";
     public final static String COMMAND_CABINET_DEPOSIT = "/cabinet/deposit";
 
+    public final static String COMMAND_PRODUCT = "/product";
+
     public final static String COMMAND_MAIN_INTERNET = "/internet";
     public final static String COMMAND_MAIN_INTERNET_TV = "/internet-tv";
     public final static String COMMAND_MAIN_TELEVISION = "/television";

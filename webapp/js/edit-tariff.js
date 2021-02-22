@@ -1,7 +1,7 @@
 $( document ).ready(function () {
     let selected = $("#editTariffProductSelect").find("option:selected");
 
-    let url = "/product/" + selected.val();
+    let url = "/product?id=" + selected.val();
 
     $.ajax({
         url: url,

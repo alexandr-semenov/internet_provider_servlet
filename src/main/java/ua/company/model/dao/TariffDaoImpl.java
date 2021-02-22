@@ -182,11 +182,6 @@ public class TariffDaoImpl implements TariffDao {
     }
 
     @Override
-    public Tariff findById(int id) {
-        return null;
-    }
-
-    @Override
     public void close(AutoCloseable autoCloseable) {
         if (autoCloseable != null) {
             try {

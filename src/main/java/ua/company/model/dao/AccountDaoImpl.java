@@ -113,11 +113,6 @@ public class AccountDaoImpl implements AccountDao {
         return true;
     }
 
-    @Override
-    public Account findById(int id) {
-        return null;
-    }
-
     private Account extractAccountFromResultSet(ResultSet resultSet) throws SQLException {
         Account account = new Account();
         account.setId(resultSet.getLong(ID));

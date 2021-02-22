@@ -176,12 +176,6 @@ public class UserDaoImpl implements UserDao {
         return userIdDto;
     }
 
-    @Override
-    public User findById(int id) {
-        return null;
-    }
-
-
     private UserIdDto extractUserIdDtoFromResultSet(ResultSet resultSet) throws SQLException {
         UserIdDto userIdDto = new UserIdDto();
         userIdDto.setId(resultSet.getLong(1));

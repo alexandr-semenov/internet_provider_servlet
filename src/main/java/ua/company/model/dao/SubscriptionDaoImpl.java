@@ -137,11 +137,6 @@ public class SubscriptionDaoImpl implements SubscriptionDao {
         return true;
     }
 
-    @Override
-    public Subscription findById(int id) {
-        return null;
-    }
-
     private Subscription extractSubscriptionFromResultSet(ResultSet resultSet) throws SQLException, DBException {
         Subscription subscription = new Subscription();
         subscription.setId(resultSet.getLong(ID));

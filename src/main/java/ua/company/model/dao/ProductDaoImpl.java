@@ -8,6 +8,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProductDaoImpl implements ProductDao{
     private static final Logger LOGGER = Logger.getLogger(ProductDaoImpl.class);
@@ -52,6 +54,58 @@ public class ProductDaoImpl implements ProductDao{
         return product;
     }
 
+    public Product findById(Long id) throws SQLException, DBException {
+        Product product = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        final String query = "SELECT * FROM product WHERE id = ?";
+
+        try {
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setLong(1, id);
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                product = extractProductFromResultSet(resultSet);
+            }
+        } catch (SQLException | DBException e) {
+            LOGGER.error(e.getMessage());
+            throw new DBException("product_not_found_exception");
+        } finally {
+            close(resultSet);
+            close(preparedStatement);
+            close(connection);
+        }
+
+        return product;
+    }
+
+    public List<Product> findAll() throws DBException {
+        List<Product> products = new ArrayList<>();
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        final String query = "SELECT * FROM product";
+
+        try {
+            preparedStatement = connection.prepareStatement(query);
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                products.add(extractProductFromResultSet(resultSet));
+            }
+        } catch (SQLException | DBException e) {
+            LOGGER.error(e.getMessage());
+            throw new DBException("product_not_found_exception");
+        } finally {
+            close(resultSet);
+            close(preparedStatement);
+            close(connection);
+        }
+
+
+        return products;
+    }
+
     private Product extractProductFromResultSet(ResultSet resultSet) throws SQLException, DBException {
         Product product = new Product();
         product.setId(resultSet.getLong(ID));
@@ -59,11 +113,6 @@ public class ProductDaoImpl implements ProductDao{
         product.setTariffs(tariffDao.findTariffsByProduct(resultSet.getLong(ID)));
 
         return product;
-    }
-
-    @Override
-    public Product findById(int id) {
-        return null;
     }
 
     @Override

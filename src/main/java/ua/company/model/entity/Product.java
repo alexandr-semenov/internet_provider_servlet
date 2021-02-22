@@ -1,6 +1,5 @@
 package ua.company.model.entity;
 
-import javax.persistence.OneToMany;
 import java.util.List;
 
 public class Product {
@@ -8,7 +7,6 @@ public class Product {
 
     private String name;
 
-    @OneToMany(mappedBy = "product")
     private List<Tariff> tariffs;
 
     public Product() {

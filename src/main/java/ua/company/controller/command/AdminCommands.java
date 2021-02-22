@@ -10,7 +10,8 @@ public class AdminCommands {
 
     static {
         commands = Arrays.asList(
-                Path.COMMAND_ADMIN, Path.COMMAND_ADMIN_PENDING_USERS, Path.COMMAND_ADMIN_ACTIVATE_USER
+                Path.COMMAND_ADMIN, Path.COMMAND_ADMIN_PENDING_USERS, Path.COMMAND_ADMIN_ACTIVATE_USER,
+                Path.COMMAND_ADMIN_TARIFF, Path.COMMAND_PRODUCT
         );
     }
 

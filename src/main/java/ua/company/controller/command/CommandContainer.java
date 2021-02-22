@@ -3,6 +3,7 @@ package ua.company.controller.command;
 import ua.company.constants.Path;
 import ua.company.controller.command.admin.AdminCommand;
 import ua.company.controller.command.admin.AdminPendingUsersCommand;
+import ua.company.controller.command.admin.AdminTariffCommand;
 import ua.company.controller.command.cabinet.CabinetCommand;
 import ua.company.controller.command.cabinet.deposit.DepositCommand;
 import ua.company.controller.command.login.LoginCommand;
@@ -10,6 +11,7 @@ import ua.company.controller.command.main.InternetMainCommand;
 import ua.company.controller.command.main.InternetTvCommand;
 import ua.company.controller.command.main.TelephonyCommand;
 import ua.company.controller.command.main.TelevisionCommand;
+import ua.company.controller.command.product.ProductCommand;
 import ua.company.controller.command.subscription.SubscriptionCommand;
 import ua.company.model.service.ProductService;
 import ua.company.model.service.TariffService;
@@ -33,6 +35,9 @@ public class CommandContainer {
 
         commands.put(Path.COMMAND_ADMIN, new AdminCommand());
         commands.put(Path.COMMAND_ADMIN_PENDING_USERS, new AdminPendingUsersCommand(new UserService()));
+        commands.put(Path.COMMAND_ADMIN_TARIFF, new AdminTariffCommand(new ProductService()));
+
+        commands.put(Path.COMMAND_PRODUCT, new ProductCommand(new ProductService()));
 
         commands.put(Path.COMMAND_MAIN_INTERNET, new InternetMainCommand(new ProductService()));
         commands.put(Path.COMMAND_MAIN_INTERNET_TV, new InternetTvCommand(new ProductService()));

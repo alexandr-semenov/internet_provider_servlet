@@ -2,6 +2,7 @@ package ua.company.controller.command;
 
 import ua.company.constants.Path;
 import ua.company.controller.command.admin.AdminActivateUserCommand;
+import ua.company.controller.command.admin.post.AdminTariffCommand;
 import ua.company.controller.command.cabinet.deposit.post.DepositCommand;
 import ua.company.controller.command.login.post.LoginCommand;
 import ua.company.controller.command.subscription.SubscribeCommand;
@@ -21,6 +22,7 @@ public class PostCommandContainer {
         commands.put(Path.COMMAND_LOGIN, new LoginCommand(new UserService(), new ValidationService()));
 
         commands.put(Path.COMMAND_ADMIN_ACTIVATE_USER, new AdminActivateUserCommand(new UserService(), new ValidationService()));
+        commands.put(Path.COMMAND_ADMIN_TARIFF, new AdminTariffCommand());
 
         commands.put(Path.COMMAND_SUBSCRIBE, new SubscribeCommand(new SubscriptionService(new UserService()), new ValidationService()));
 
