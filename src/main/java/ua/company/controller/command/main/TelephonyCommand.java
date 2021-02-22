@@ -8,7 +8,6 @@ import ua.company.model.service.ProductService;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 public class TelephonyCommand extends Command {
     private final ProductService productService;
@@ -18,7 +17,7 @@ public class TelephonyCommand extends Command {
     }
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         Product product = productService.getProductByName("telephony");
 
         request.setAttribute("product", product);

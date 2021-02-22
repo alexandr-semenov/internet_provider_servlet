@@ -5,6 +5,7 @@ import ua.company.controller.command.admin.AdminActivateUserCommand;
 import ua.company.controller.command.cabinet.deposit.post.DepositCommand;
 import ua.company.controller.command.login.post.LoginCommand;
 import ua.company.controller.command.subscription.SubscribeCommand;
+import ua.company.model.service.AccountService;
 import ua.company.model.service.SubscriptionService;
 import ua.company.model.service.UserService;
 import ua.company.util.ValidationService;
@@ -23,7 +24,7 @@ public class PostCommandContainer {
 
         commands.put(Path.COMMAND_SUBSCRIBE, new SubscribeCommand(new SubscriptionService(new UserService()), new ValidationService()));
 
-        commands.put(Path.COMMAND_CABINET_DEPOSIT, new DepositCommand());
+        commands.put(Path.COMMAND_CABINET_DEPOSIT, new DepositCommand(new AccountService(), new ValidationService()));
 
         commands.put(Path.COMMAND_API_RESPONSE, new ApiResponseCommand());
     }

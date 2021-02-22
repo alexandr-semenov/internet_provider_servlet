@@ -12,6 +12,7 @@ public final class Path {
     public final static String COMMAND_ADMIN = "/admin";
     public final static String COMMAND_ADMIN_PENDING_USERS = "/admin/pending-users";
     public final static String COMMAND_ADMIN_ACTIVATE_USER = "/admin/activate-user";
+    public final static String COMMAND_ADMIN_TARIFF = "/admin/tariff";
 
     public final static String COMMAND_CABINET = "/cabinet";
     public final static String COMMAND_CABINET_DEPOSIT = "/cabinet/deposit";

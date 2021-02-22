@@ -21,9 +21,14 @@ public class SubscriptionDaoImpl implements SubscriptionDao {
 
     private UserDaoImpl userDao;
     private AccountDaoImpl accountDao;
-    private final TariffDaoImpl tariffDao;
+    private TariffDaoImpl tariffDao;
     private SubscriptionTariffDao subscriptionTariffDao;
     private final Connection connection;
+
+    public SubscriptionDaoImpl(Connection connection) {
+
+        this.connection = connection;
+    }
 
     public SubscriptionDaoImpl(Connection connection, TariffDaoImpl tariffDao) {
         this.connection = connection;
@@ -109,6 +114,27 @@ public class SubscriptionDaoImpl implements SubscriptionDao {
         }
 
         return subscription;
+    }
+
+    public boolean updateStatus(Subscription subscription, String status) throws DBException, SQLException {
+        PreparedStatement preparedStatement = null;
+        final String query = " UPDATE subscription SET status = ? WHERE id = ?";
+
+        try {
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, status);
+            preparedStatement.setLong(2, subscription.getId());
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            connection.rollback();
+            LOGGER.error(e.getMessage());
+            throw new DBException("update_subscription_error");
+        } finally {
+            close(preparedStatement);
+        }
+
+        return true;
     }
 
     @Override

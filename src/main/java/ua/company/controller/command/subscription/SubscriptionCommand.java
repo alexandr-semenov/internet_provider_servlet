@@ -7,7 +7,6 @@ import ua.company.model.service.TariffService;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 public class SubscriptionCommand extends Command {
     private final TariffService tariffService;
@@ -17,7 +16,7 @@ public class SubscriptionCommand extends Command {
     }
 
     @Override
-    public String execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         request.setAttribute("tariff_id", request.getParameter("tariff_id"));
         request.setAttribute("tariffProductDto", tariffService.getAllTariffWithProduct());
 

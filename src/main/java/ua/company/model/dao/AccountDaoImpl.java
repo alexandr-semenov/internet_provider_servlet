@@ -1,9 +1,11 @@
 package ua.company.model.dao;
 
 import org.apache.log4j.Logger;
+import ua.company.constants.SubscriptionStatus;
 import ua.company.exception.DBException;
 import ua.company.model.dto.user.UserIdDto;
 import ua.company.model.entity.Account;
+import ua.company.model.entity.Subscription;
 
 import java.sql.*;
 
@@ -14,6 +16,12 @@ public class AccountDaoImpl implements AccountDao {
     private static final String AMOUNT = "amount";
 
     private final Connection connection;
+    private SubscriptionDaoImpl subscriptionDao;
+
+    public AccountDaoImpl(Connection connection, SubscriptionDaoImpl subscriptionDao) {
+        this.connection = connection;
+        this.subscriptionDao = subscriptionDao;
+    }
 
     public AccountDaoImpl(Connection connection) {
         this.connection = connection;
@@ -65,6 +73,44 @@ public class AccountDaoImpl implements AccountDao {
         }
 
         return account;
+    }
+
+    public boolean makeDeposit(Account account, Double newAmount) throws DBException, SQLException {
+        connection.setAutoCommit(false);
+
+        return updateAccount(account, newAmount);
+    }
+
+    public boolean makeDebit(Account account, Double newAmount, Subscription subscription) throws DBException, SQLException {
+        connection.setAutoCommit(false);
+
+        subscriptionDao.updateStatus(subscription, SubscriptionStatus.ACTIVE);
+
+        return updateAccount(account, newAmount);
+    }
+
+    private boolean updateAccount(Account account, Double newAmount) throws DBException {
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        final String query = " UPDATE account SET amount = ? WHERE id = ?";
+
+        try {
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setDouble(1, newAmount);
+            preparedStatement.setLong(2, account.getId());
+
+            preparedStatement.executeUpdate();
+            connection.commit();
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage());
+            throw new DBException("deposit_error");
+        } finally {
+            close(resultSet);
+            close(preparedStatement);
+            close(connection);
+        }
+
+        return true;
     }
 
     @Override

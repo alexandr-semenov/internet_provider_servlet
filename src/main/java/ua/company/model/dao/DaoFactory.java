@@ -10,6 +10,7 @@ public abstract class DaoFactory {
     public abstract ProductDaoImpl createProductDao() throws ApiException;
     public abstract TariffDaoImpl createTariffDao() throws ApiException;
     public abstract SubscriptionDaoImpl createSubscriptionDao() throws ApiException;
+    public abstract AccountDaoImpl createAccountDao() throws ApiException;
 
     public static DaoFactory getInstance() {
         return new JdbcDaoFactory();

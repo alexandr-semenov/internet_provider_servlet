@@ -120,7 +120,7 @@ $( document ).ready(function () {
             data: JSON.stringify(data),
             success: function (response) {
                 showSuccessAlert(response.message);
-                setTimeout(function(){ history.back(); }, 2000);
+                setTimeout(function(){ location.href="/cabinet"; }, 2000);
             },
             error: function (response) {
                 let responseBody = JSON.parse(response.responseText);

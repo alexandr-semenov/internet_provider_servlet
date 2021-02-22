@@ -48,6 +48,13 @@ public class JdbcDaoFactory extends DaoFactory {
         );
     }
 
+    @Override
+    public AccountDaoImpl createAccountDao() throws ApiException {
+        Connection connection = getConnection();
+
+        return new AccountDaoImpl(connection, new SubscriptionDaoImpl(connection));
+    }
+
     private Connection getConnection() throws ApiException {
         Connection connection = ConnectionPool.getInstance().getConnection();
         if (connection == null) {
