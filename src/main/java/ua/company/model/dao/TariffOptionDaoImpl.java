@@ -66,7 +66,6 @@ public class TariffOptionDaoImpl implements TariffOptionDao {
             throw new DBException("tariff_option_update_exception");
         } finally {
             close(preparedStatement);
-            close(connection);
         }
     }
 

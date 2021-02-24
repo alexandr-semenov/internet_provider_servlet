@@ -48,6 +48,18 @@ public class TariffService {
         return tariff;
     }
 
+    public boolean createTariff(TariffDto tariffDto) throws ApiException {
+        TariffDaoImpl tariffDao = daoFactory.createTariffDao();
+
+        try {
+            tariffDao.create(tariffDto);
+        } catch (Exception e) {
+            throw new ApiException(Arrays.asList(e.getMessage()), HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        }
+
+        return true;
+    }
+
     public boolean updateTariff(TariffDto tariffDto) throws ApiException {
         TariffDaoImpl tariffDao = daoFactory.createTariffDao();
         try {

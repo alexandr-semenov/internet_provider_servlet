@@ -22,7 +22,7 @@ public class TariffDto implements ValidationDto {
 
     private Long productId;
 
-    private List<TariffOptionDto> tariffOption;
+    private List<TariffOptionCreateDto> tariffOption;
 
     public TariffDto() {
     }
@@ -67,11 +67,11 @@ public class TariffDto implements ValidationDto {
         this.productId = productId;
     }
 
-    public List<TariffOptionDto> getTariffOption() {
+    public List<TariffOptionCreateDto> getTariffOption() {
         return tariffOption;
     }
 
-    public void setTariffOption(List<TariffOptionDto> tariffOption) {
+    public void setTariffOption(List<TariffOptionCreateDto> tariffOption) {
         this.tariffOption = tariffOption;
     }
 }

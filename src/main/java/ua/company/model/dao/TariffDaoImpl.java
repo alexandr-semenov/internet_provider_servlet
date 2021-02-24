@@ -5,13 +5,11 @@ import ua.company.exception.DBException;
 import ua.company.model.dto.product.TariffProductDto;
 import ua.company.model.dto.tariff.TariffDto;
 import ua.company.model.dto.tariff.TariffIdDto;
+import ua.company.model.dto.tariff.TariffOptionCreateDto;
 import ua.company.model.dto.tariff.TariffPriceDto;
 import ua.company.model.entity.Tariff;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -68,7 +66,7 @@ public class TariffDaoImpl implements TariffDao {
 
     public List<TariffProductDto> findAllTariffWithProduct() throws DBException {
         List<TariffProductDto> tariffs = new ArrayList<>();
-        PreparedStatement preparedStatement = null;
+        PreparedStatement preparedStatement;
         ResultSet resultSet = null;
         final String query = "SELECT t.id tariff_id, t.name tariff_name, p.name product_name FROM tariff as t LEFT JOIN product as p ON t.product_id = p.id";
 
@@ -171,6 +169,45 @@ public class TariffDaoImpl implements TariffDao {
         return tariff;
     }
 
+
+    public void create(TariffDto tariffDto) throws DBException {
+        TariffIdDto tariffIdDto;
+        ResultSet resultSet = null;
+        PreparedStatement preparedStatement = null;
+        final String query = "INSERT INTO tariff (name, description, price, product_id) VALUES (?, ?, ?, ?)";
+
+        try {
+            connection.setAutoCommit(false);
+            preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+            preparedStatement.setString(1, tariffDto.getName());
+            preparedStatement.setString(2, tariffDto.getDescription());
+            preparedStatement.setDouble(3, tariffDto.getPrice());
+            preparedStatement.setLong(4, tariffDto.getProductId());
+            preparedStatement.executeUpdate();
+            resultSet = preparedStatement.getGeneratedKeys();
+
+            if (resultSet.next()) {
+                tariffIdDto = extractTariffIdDtoFromResultSet(resultSet);
+
+                for (TariffOptionCreateDto createDto : tariffDto.getTariffOption()) {
+                    if (createDto.getOption().isEmpty()) {
+                        throw new DBException("tariff_option_name_empty_error");
+                    }
+                    createDto.setTariffId(tariffIdDto.getId());
+                    tariffOption.create(createDto);
+                }
+            }
+            connection.commit();
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage());
+            throw new DBException("tariff_not_found_exception");
+        } finally {
+            close(resultSet);
+            close(preparedStatement);
+            close(connection);
+        }
+    }
+
     public void update(TariffDto tariffDto) throws DBException {
         PreparedStatement preparedStatement = null;
         final String query = "UPDATE tariff SET name = ?, description = ?, price = ?, product_id = ? WHERE id = ?";
@@ -190,6 +227,13 @@ public class TariffDaoImpl implements TariffDao {
             close(preparedStatement);
             close(connection);
         }
+    }
+
+    private TariffIdDto extractTariffIdDtoFromResultSet(ResultSet resultSet) throws SQLException {
+        TariffIdDto tariffIdDto = new TariffIdDto();
+        tariffIdDto.setId(resultSet.getLong(1));
+
+        return tariffIdDto;
     }
 
     private Tariff extractTariffCabinetFromResultSet(ResultSet resultSet) throws SQLException {
