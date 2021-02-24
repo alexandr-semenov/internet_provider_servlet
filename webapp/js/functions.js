@@ -9,7 +9,7 @@ function addTbody(tbody, response) {
         tbody.append(
             '<tr>' +
             '<td valign="middle">' + value.name + '</td>' +
-            '<td><a href="/admin/tariff/'+ value.id +'" class="btn btn-info text-white" type="button">' + edit + '</a></td>' +
+            '<td><a href="/admin/tariff/edit?id='+ value.id +'" class="btn btn-info text-white" type="button">' + edit + '</a></td>' +
             '</tr>'
         );
     });

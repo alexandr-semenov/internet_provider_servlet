@@ -5,7 +5,9 @@ public class Page {
 
     public final static String ADMIN_PAGE = "/WEB-INF/jsp/admin/index.jsp";
     public final static String ADMIN_PENDING_USERS_PAGE = "/WEB-INF/jsp/admin/pending_users.jsp";
-    public final static String ADMIN_EDIT_TARIFF_PAGE = "/WEB-INF/jsp/admin/edit_tariffs_page.jsp";
+    public final static String ADMIN_CREATE_TARIFF_PAGE = "/WEB-INF/jsp/admin/create_tariff_page.jsp";
+    public final static String ADMIN_EDIT_TARIFFS_PAGE = "/WEB-INF/jsp/admin/edit_tariffs_page.jsp";
+    public final static String ADMIN_EDIT_TARIFF_PAGE = "/WEB-INF/jsp/admin/edit_tariff_page.jsp";
 
     public final static String CABINET_PAGE = "/WEB-INF/jsp/cabinet/index.jsp";
     public final static String CABINET_DEPOSIT_PAGE = "/WEB-INF/jsp/cabinet/deposit/deposit_page.jsp";

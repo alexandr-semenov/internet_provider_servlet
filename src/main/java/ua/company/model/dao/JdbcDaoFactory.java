@@ -25,14 +25,19 @@ public class JdbcDaoFactory extends DaoFactory {
     public ProductDaoImpl createProductDao() throws ApiException {
         Connection connection = getConnection();
 
-        return new ProductDaoImpl(connection, new TariffDaoImpl(connection, new TariffOptionImpl(connection)));
+        return new ProductDaoImpl(connection, new TariffDaoImpl(connection, new TariffOptionDaoImpl(connection)));
     }
 
     @Override
     public TariffDaoImpl createTariffDao() throws ApiException {
         Connection connection = getConnection();
 
-        return new TariffDaoImpl(connection, new TariffOptionImpl(connection));
+        return new TariffDaoImpl(connection, new TariffOptionDaoImpl(connection));
+    }
+
+    @Override
+    public TariffOptionDaoImpl createTariffOptionDao() throws ApiException {
+        return new TariffOptionDaoImpl(getConnection());
     }
 
     @Override

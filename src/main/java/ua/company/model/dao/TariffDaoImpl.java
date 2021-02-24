@@ -3,6 +3,7 @@ package ua.company.model.dao;
 import org.apache.log4j.Logger;
 import ua.company.exception.DBException;
 import ua.company.model.dto.product.TariffProductDto;
+import ua.company.model.dto.tariff.TariffDto;
 import ua.company.model.dto.tariff.TariffIdDto;
 import ua.company.model.dto.tariff.TariffPriceDto;
 import ua.company.model.entity.Tariff;
@@ -28,13 +29,13 @@ public class TariffDaoImpl implements TariffDao {
     private static final String PRODUCT_NAME = "product_name";
 
     private final Connection connection;
-    private TariffOptionImpl tariffOption = null;
+    private TariffOptionDaoImpl tariffOption = null;
 
     public TariffDaoImpl(Connection connection) {
         this.connection = connection;
     }
 
-    public TariffDaoImpl(Connection connection, TariffOptionImpl tariffOption) {
+    public TariffDaoImpl(Connection connection, TariffOptionDaoImpl tariffOption) {
         this.connection = connection;
         this.tariffOption = tariffOption;
     }
@@ -142,6 +143,53 @@ public class TariffDaoImpl implements TariffDao {
         }
 
         return tariffs;
+    }
+
+    public Tariff findById(Long id) throws DBException {
+        Tariff tariff = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        String query = "SELECT * FROM tariff WHERE id = ?";
+
+        try {
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setLong(1, id);
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                tariff = extractTariffFromResultSet(resultSet);
+            }
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage());
+            throw new DBException("tariff_not_found_exception");
+        } finally {
+            close(resultSet);
+            close(preparedStatement);
+            close(connection);
+        }
+
+        return tariff;
+    }
+
+    public void update(TariffDto tariffDto) throws DBException {
+        PreparedStatement preparedStatement = null;
+        final String query = "UPDATE tariff SET name = ?, description = ?, price = ?, product_id = ? WHERE id = ?";
+
+        try {
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, tariffDto.getName());
+            preparedStatement.setString(2, tariffDto.getDescription());
+            preparedStatement.setDouble(3, tariffDto.getPrice());
+            preparedStatement.setLong(4, tariffDto.getProductId());
+            preparedStatement.setLong(5, tariffDto.getId());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            LOGGER.error(e.getMessage());
+            throw new DBException("tariff_update_exception");
+        } finally {
+            close(preparedStatement);
+            close(connection);
+        }
     }
 
     private Tariff extractTariffCabinetFromResultSet(ResultSet resultSet) throws SQLException {

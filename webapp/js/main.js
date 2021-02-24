@@ -202,8 +202,6 @@ $( document ).ready(function () {
         let form = $("#createTariffForm");
         let url = form.attr("action");
         let array = form.serializeArray();
-        let id = $("#tariffId").val();
-        url = url + id;
 
         let data = {};
         $.map(array, function(n, i){
@@ -211,7 +209,7 @@ $( document ).ready(function () {
         });
 
         $.ajax({
-            type: "PUT",
+            type: "POST",
             url: url,
             traditional: true,
             dataType: "json",
@@ -231,14 +229,14 @@ $( document ).ready(function () {
         let tr = $(this).parent().parent();
         let input = tr.find("input");
         let id = $("#tariffId").val();
-        let url = "/admin/tariff/option/" + id;
+        let url = "/admin/tariff/option/create";
 
         $.ajax({
             url: url,
             method: "POST",
             dataType: "json",
             contentType: 'application/json',
-            data: JSON.stringify({"option": input.val()}),
+            data: JSON.stringify({"tariffId": id, "option": input.val()}),
             success: function (response) {
                 showSuccessAlert(response.message);
 
@@ -257,14 +255,14 @@ $( document ).ready(function () {
         let tr = $(this).parent().parent();
         let input = tr.find("input");
         let id = $(this).attr("attr-id");
-        let url = "/admin/tariff/option/" + id;
+        let url = "/admin/tariff/option";
 
         $.ajax({
             url: url,
-            method: "PUT",
+            method: "POST",
             dataType: "json",
             contentType: 'application/json',
-            data: JSON.stringify({"option": input.val()}),
+            data: JSON.stringify({"id": id, "option": input.val()}),
             success: function (response) {
                 showSuccessAlert(response.message);
             },
@@ -277,11 +275,14 @@ $( document ).ready(function () {
 
     $(".deleteTariffOption").on("click", function () {
         let id = $(this).attr("attr-id");
-        let url = "/admin/tariff/option/" + id;
+        let url = "/admin/tariff/option/delete";
 
         $.ajax({
             url: url,
-            method: "DELETE",
+            method: "POST",
+            dataType: "json",
+            contentType: 'application/json',
+            data: JSON.stringify({"id": id}),
             success: function (response) {
                 showSuccessAlert(response.message);
 

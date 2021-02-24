@@ -33,7 +33,7 @@
                             <tbody>
                             <tr>
                                 <td valign="middle"><fmt:message key="edit_tariffs"/></td>
-                                <td><a href="/admin/tariff" class="btn btn-info text-white" type="button"><fmt:message key="edit"/></a></td>
+                                <td><a href="/admin/tariffs/edit" class="btn btn-info text-white" type="button"><fmt:message key="edit"/></a></td>
                             </tr>
                             <tr>
                                 <td valign="middle"><fmt:message key="create_tariff"/></td>

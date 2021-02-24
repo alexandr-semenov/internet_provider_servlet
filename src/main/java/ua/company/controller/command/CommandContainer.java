@@ -1,9 +1,7 @@
 package ua.company.controller.command;
 
 import ua.company.constants.Path;
-import ua.company.controller.command.admin.AdminCommand;
-import ua.company.controller.command.admin.AdminPendingUsersCommand;
-import ua.company.controller.command.admin.AdminTariffCommand;
+import ua.company.controller.command.admin.*;
 import ua.company.controller.command.cabinet.CabinetCommand;
 import ua.company.controller.command.cabinet.deposit.DepositCommand;
 import ua.company.controller.command.login.LoginCommand;
@@ -16,6 +14,7 @@ import ua.company.controller.command.subscription.SubscriptionCommand;
 import ua.company.model.service.ProductService;
 import ua.company.model.service.TariffService;
 import ua.company.model.service.UserService;
+import ua.company.util.ValidationService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
@@ -35,7 +34,9 @@ public class CommandContainer {
 
         commands.put(Path.COMMAND_ADMIN, new AdminCommand());
         commands.put(Path.COMMAND_ADMIN_PENDING_USERS, new AdminPendingUsersCommand(new UserService()));
-        commands.put(Path.COMMAND_ADMIN_TARIFF, new AdminTariffCommand(new ProductService()));
+        commands.put(Path.COMMAND_ADMIN_TARIFF_CREATE, new AdminCreateTariffCommand(new ProductService()));
+        commands.put(Path.COMMAND_ADMIN_EDIT_TARIFFS, new AdminEditTariffsCommand(new ProductService()));
+        commands.put(Path.COMMAND_ADMIN_EDIT_TARIFF, new AdminEditTariffCommand(new TariffService(), new ProductService()));
 
         commands.put(Path.COMMAND_PRODUCT, new ProductCommand(new ProductService()));
 
