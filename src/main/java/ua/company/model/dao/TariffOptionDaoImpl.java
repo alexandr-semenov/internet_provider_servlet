@@ -1,6 +1,7 @@
 package ua.company.model.dao;
 
 import org.apache.log4j.Logger;
+
 import ua.company.exception.DBException;
 import ua.company.model.dto.tariff.TariffOptionCreateDto;
 import ua.company.model.dto.tariff.TariffOptionDeleteDto;
@@ -11,15 +12,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class TariffOptionDaoImpl implements TariffOptionDao {
     private static final Logger LOGGER = Logger.getLogger(TariffOptionDaoImpl.class);
-
     private static final String ID = "id";
     private static final String ITEM = "item";
-
     private final Connection connection;
 
     public TariffOptionDaoImpl(Connection connection) {

@@ -1,11 +1,11 @@
 package ua.company.exception;
 
 import javax.servlet.ServletException;
+
 import java.util.List;
 
 public class ApiException extends ServletException {
     List<String> messages;
-
     int statusCode;
 
     public ApiException() {

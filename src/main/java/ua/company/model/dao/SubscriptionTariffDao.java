@@ -1,6 +1,7 @@
 package ua.company.model.dao;
 
 import org.apache.log4j.Logger;
+
 import ua.company.exception.DBException;
 
 import java.sql.Connection;

@@ -1,7 +1,9 @@
 package ua.company.controller.command.login.post;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.mindrot.jbcrypt.BCrypt;
+
 import ua.company.constants.Path;
 import ua.company.constants.RoleName;
 import ua.company.controller.command.Command;
@@ -17,7 +19,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
 import java.io.IOException;
+
 import java.util.Arrays;
 import java.util.stream.Collectors;
 

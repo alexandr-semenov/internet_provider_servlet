@@ -8,6 +8,7 @@ import ua.company.model.dto.tariff.TariffDto;
 import ua.company.model.entity.Tariff;
 
 import javax.servlet.http.HttpServletResponse;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -62,6 +63,7 @@ public class TariffService {
 
     public boolean updateTariff(TariffDto tariffDto) throws ApiException {
         TariffDaoImpl tariffDao = daoFactory.createTariffDao();
+
         try {
             tariffDao.update(tariffDto);
         } catch (Exception e) {

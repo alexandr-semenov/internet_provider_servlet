@@ -1,6 +1,7 @@
 package ua.company.model.dao;
 
 import org.apache.log4j.Logger;
+
 import ua.company.constants.SubscriptionStatus;
 import ua.company.exception.DBException;
 import ua.company.model.dto.SubscriptionDto;
@@ -10,15 +11,14 @@ import ua.company.model.dto.user.UserIdDto;
 import ua.company.model.entity.Subscription;
 
 import java.sql.*;
+
 import java.util.List;
 
 public class SubscriptionDaoImpl implements SubscriptionDao {
     private static final Logger LOGGER = Logger.getLogger(SubscriptionDaoImpl.class);
-
     private static final String ID = "id";
     private static final String PRICE = "price";
     private static final String STATUS = "status";
-
     private UserDaoImpl userDao;
     private AccountDaoImpl accountDao;
     private TariffDaoImpl tariffDao;
@@ -26,7 +26,6 @@ public class SubscriptionDaoImpl implements SubscriptionDao {
     private final Connection connection;
 
     public SubscriptionDaoImpl(Connection connection) {
-
         this.connection = connection;
     }
 

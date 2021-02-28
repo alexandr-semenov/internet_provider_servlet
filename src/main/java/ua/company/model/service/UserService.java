@@ -7,7 +7,7 @@ import ua.company.model.dto.user.UserDto;
 import ua.company.model.entity.User;
 
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
+
 import java.util.Arrays;
 import java.util.List;
 

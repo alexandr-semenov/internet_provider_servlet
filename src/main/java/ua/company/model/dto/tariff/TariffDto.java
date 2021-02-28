@@ -1,10 +1,12 @@
 package ua.company.model.dto.tariff;
 
 import org.hibernate.validator.constraints.NotEmpty;
+
 import ua.company.model.dto.ValidationDto;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+
 import java.util.List;
 
 public class TariffDto implements ValidationDto {

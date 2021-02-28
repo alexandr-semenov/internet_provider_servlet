@@ -1,6 +1,7 @@
 package ua.company.model.dao;
 
 import org.apache.log4j.Logger;
+
 import ua.company.exception.DBException;
 import ua.company.model.entity.Product;
 
@@ -8,15 +9,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class ProductDaoImpl implements ProductDao{
     private static final Logger LOGGER = Logger.getLogger(ProductDaoImpl.class);
-
     private static final String ID = "id";
     private static final String NAME = "name";
-
     private final Connection connection;
     private final TariffDaoImpl tariffDao;
 
@@ -101,7 +101,6 @@ public class ProductDaoImpl implements ProductDao{
             close(preparedStatement);
             close(connection);
         }
-
 
         return products;
     }

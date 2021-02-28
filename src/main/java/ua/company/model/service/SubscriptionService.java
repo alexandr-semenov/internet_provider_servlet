@@ -7,6 +7,7 @@ import ua.company.model.dto.SubscriptionDto;
 import ua.company.model.entity.User;
 
 import javax.servlet.http.HttpServletResponse;
+
 import java.util.Arrays;
 
 public class SubscriptionService {

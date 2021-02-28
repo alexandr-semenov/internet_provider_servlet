@@ -29,7 +29,6 @@ public final class Path {
     public final static String COMMAND_MAIN_TELEVISION = "/television";
     public final static String COMMAND_MAIN_TELEPHONY = "/telephony";
 
-
     public final static String COMMAND_SUBSCRIPTION = "/subscription/";
     public final static String COMMAND_SUBSCRIBE = "/subscribe";
 }

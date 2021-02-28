@@ -1,6 +1,7 @@
 package ua.company.filter;
 
 import org.apache.log4j.Logger;
+
 import ua.company.constants.RoleName;
 import ua.company.controller.command.AdminCommands;
 import ua.company.controller.command.CommonCommands;
@@ -14,12 +15,13 @@ import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
 import java.io.IOException;
+
 import java.util.*;
 
 public class CommandAccessFilter implements Filter {
     private static final Logger LOGGER = Logger.getLogger(CommandAccessFilter.class);
-
     private final Map<String, List<String>> accessMap = new HashMap<>();
     private List<String> guestCommands;
     private List<String> commonCommands;

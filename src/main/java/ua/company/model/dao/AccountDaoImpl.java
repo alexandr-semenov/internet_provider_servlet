@@ -1,6 +1,7 @@
 package ua.company.model.dao;
 
 import org.apache.log4j.Logger;
+
 import ua.company.constants.SubscriptionStatus;
 import ua.company.exception.DBException;
 import ua.company.model.dto.user.UserIdDto;
@@ -11,10 +12,8 @@ import java.sql.*;
 
 public class AccountDaoImpl implements AccountDao {
     private static final Logger LOGGER = Logger.getLogger(AccountDaoImpl.class);
-
     private static final String ID = "id";
     private static final String AMOUNT = "amount";
-
     private final Connection connection;
     private SubscriptionDaoImpl subscriptionDao;
 

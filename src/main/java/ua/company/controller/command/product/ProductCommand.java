@@ -1,6 +1,7 @@
 package ua.company.controller.command.product;
 
 import com.google.gson.Gson;
+
 import ua.company.constants.Path;
 import ua.company.controller.command.Command;
 import ua.company.model.dto.product.TariffDto;
@@ -10,8 +11,10 @@ import ua.company.model.service.ProductService;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import java.io.IOException;
 import java.io.PrintWriter;
+
 import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;

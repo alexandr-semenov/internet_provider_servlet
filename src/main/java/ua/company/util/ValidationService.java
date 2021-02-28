@@ -1,6 +1,7 @@
 package ua.company.util;
 
 import org.apache.log4j.Logger;
+
 import ua.company.exception.ApiException;
 import ua.company.model.dto.ValidationDto;
 
@@ -8,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;

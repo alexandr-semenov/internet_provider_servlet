@@ -1,6 +1,7 @@
 package ua.company.model.dto.tariff;
 
 import org.hibernate.validator.constraints.NotEmpty;
+
 import ua.company.model.dto.ValidationDto;
 
 import javax.validation.constraints.NotNull;

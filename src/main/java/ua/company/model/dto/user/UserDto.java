@@ -1,6 +1,7 @@
 package ua.company.model.dto.user;
 
 import org.hibernate.validator.constraints.NotBlank;
+
 import ua.company.model.dto.ValidationDto;
 
 public class UserDto implements ValidationDto {

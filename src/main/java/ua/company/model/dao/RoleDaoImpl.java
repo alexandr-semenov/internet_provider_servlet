@@ -1,6 +1,7 @@
 package ua.company.model.dao;
 
 import org.apache.log4j.Logger;
+
 import ua.company.exception.DBException;
 import ua.company.model.entity.Role;
 
@@ -11,10 +12,8 @@ import java.sql.SQLException;
 
 public class RoleDaoImpl implements RoleDao {
     private static final Logger LOGGER = Logger.getLogger(RoleDaoImpl.class);
-
     private static final String ID = "id";
     private static final String NAME = "name";
-
     private final Connection connection;
 
     public RoleDaoImpl(Connection connection) {
@@ -25,7 +24,6 @@ public class RoleDaoImpl implements RoleDao {
         Role role = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
-
         final String query = "SELECT * FROM role WHERE id = ?";
 
         try {

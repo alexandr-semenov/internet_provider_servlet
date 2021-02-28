@@ -6,6 +6,7 @@ import ua.company.model.dao.RoleDaoImpl;
 import ua.company.model.entity.Role;
 
 import javax.servlet.http.HttpServletResponse;
+
 import java.util.Arrays;
 
 public class RoleService {

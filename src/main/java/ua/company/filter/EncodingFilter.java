@@ -1,6 +1,7 @@
 package ua.company.filter;
 
 import javax.servlet.*;
+
 import java.io.IOException;
 
 public class EncodingFilter implements Filter {

@@ -1,6 +1,7 @@
 package ua.company.model.dao;
 
 import org.apache.log4j.Logger;
+
 import ua.company.constants.RoleName;
 import ua.company.exception.ApiException;
 import ua.company.exception.DBException;
@@ -11,19 +12,18 @@ import ua.company.model.entity.Role;
 import ua.company.model.entity.User;
 
 import java.sql.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class UserDaoImpl implements UserDao {
     private static final Logger LOGGER = Logger.getLogger(UserDaoImpl.class);
-
     private static final String ID = "id";
     private static final String USERNAME = "username";
     private static final String PASSWORD = "password";
     private static final String ACTIVE = "active";
     private static final String ROLE_ID = "role_id";
     private static final String TOTAL = "total";
-
     private final Connection connection;
     private final RoleDaoImpl roleDao;
     private SubscriptionDaoImpl subscriptionDao = null;
@@ -72,10 +72,8 @@ public class UserDaoImpl implements UserDao {
 
     public List<UserDto> findNotActivePaginatedUsers(int size, int offset) throws DBException {
         List<UserDto> users = new ArrayList<>();
-
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
-
         final String query = "SELECT id, username, active FROM user WHERE active = 0 LIMIT ? OFFSET ?";
 
         try {
@@ -103,7 +101,6 @@ public class UserDaoImpl implements UserDao {
         int total = 0;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
-
         final String query = "SELECT COUNT(id) total FROM user WHERE active = 0";
 
         try {
@@ -146,7 +143,6 @@ public class UserDaoImpl implements UserDao {
     public UserIdDto create(SubscriptionDto subscriptionDto) throws DBException, SQLException {
         UserIdDto userIdDto = null;
         Role role = roleDao.findByName(RoleName.ROLE_USER);
-
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
         final String query = "INSERT INTO user (username, password, active, role_id) VALUES(?, ?, ?, ?)";
