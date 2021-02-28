@@ -138,13 +138,12 @@ public class SubscriptionDaoImpl implements SubscriptionDao {
     }
 
     private Subscription extractSubscriptionFromResultSet(ResultSet resultSet) throws SQLException, DBException {
-        Subscription subscription = new Subscription();
-        subscription.setId(resultSet.getLong(ID));
-        subscription.setPrice(resultSet.getDouble(PRICE));
-        subscription.setStatus(Subscription.Status.valueOf(resultSet.getString(STATUS)));
-        subscription.setTariffs(tariffDao.findTariffsBySubscription(resultSet.getLong(ID)));
-
-        return subscription;
+        return Subscription.builder()
+                .setId(resultSet.getLong(ID))
+                .setPrice(resultSet.getDouble(PRICE))
+                .setStatus(Subscription.Status.valueOf(resultSet.getString(STATUS)))
+                .setTariffs(tariffDao.findTariffsBySubscription(resultSet.getLong(ID)))
+                .build();
     }
 
     @Override

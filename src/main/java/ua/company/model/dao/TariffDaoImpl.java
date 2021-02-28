@@ -237,13 +237,12 @@ public class TariffDaoImpl implements TariffDao {
     }
 
     private Tariff extractTariffCabinetFromResultSet(ResultSet resultSet) throws SQLException {
-        Tariff tariffCabinet = new Tariff();
-        tariffCabinet.setId(resultSet.getLong(ID));
-        tariffCabinet.setName(resultSet.getString(NAME));
-        tariffCabinet.setDescription(resultSet.getString(DESCRIPTION));
-        tariffCabinet.setPrice(resultSet.getDouble(PRICE));
-
-        return tariffCabinet;
+        return Tariff.builder()
+                .setId(resultSet.getLong(ID))
+                .setName(resultSet.getString(NAME))
+                .setDescription(resultSet.getString(DESCRIPTION))
+                .setPrice(resultSet.getDouble(PRICE))
+                .build();
     }
 
     private TariffPriceDto extractTariffPriceDtoFromResultSet(ResultSet resultSet) throws SQLException {
@@ -254,14 +253,13 @@ public class TariffDaoImpl implements TariffDao {
     }
 
     private Tariff extractTariffFromResultSet(ResultSet resultSet) throws SQLException, DBException {
-        Tariff tariff = new Tariff();
-        tariff.setId(resultSet.getLong(ID));
-        tariff.setName(resultSet.getString(NAME));
-        tariff.setDescription(resultSet.getString(DESCRIPTION));
-        tariff.setPrice(resultSet.getDouble(PRICE));
-        tariff.setOptions(tariffOption.findTariffsOptionsByTariff(resultSet.getLong(ID)));
-
-        return tariff;
+        return Tariff.builder()
+                .setId(resultSet.getLong(ID))
+                .setName(resultSet.getString(NAME))
+                .setDescription(resultSet.getString(DESCRIPTION))
+                .setPrice(resultSet.getDouble(PRICE))
+                .setOptions(tariffOption.findTariffsOptionsByTariff(resultSet.getLong(ID)))
+                .build();
     }
 
     private TariffProductDto extractTariffProductDtoFromResultSet(ResultSet resultSet) throws SQLException {

@@ -7,13 +7,21 @@ public class Subscription {
 
     private User user;
 
-    List<Tariff> tariffs;
+    private List<Tariff> tariffs;
 
     private Status status;
 
     private Double price;
 
     public Subscription() {
+    }
+
+    private Subscription(Builder builder) {
+        this.id = builder.id;
+        this.user = builder.user;
+        this.tariffs = builder.tariffs;
+        this.status = builder.status;
+        this.price = builder.price;
     }
 
     public Long getId() {
@@ -57,4 +65,45 @@ public class Subscription {
     }
 
     public enum Status { ACTIVE, NOT_ACTIVE }
+
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    public static class Builder {
+        private Long id;
+        private User user;
+        private List<Tariff> tariffs;
+        private Status status;
+        private Double price;
+
+        public Builder setId(Long id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder setUser(User user) {
+            this.user = user;
+            return this;
+        }
+
+        public Builder setTariffs(List<Tariff> tariffs) {
+            this.tariffs = tariffs;
+            return this;
+        }
+
+        public Builder setStatus(Status status) {
+            this.status = status;
+            return this;
+        }
+
+        public Builder setPrice(Double price) {
+            this.price = price;
+            return this;
+        }
+
+        public Subscription build() {
+            return new Subscription(this);
+        }
+    }
 }

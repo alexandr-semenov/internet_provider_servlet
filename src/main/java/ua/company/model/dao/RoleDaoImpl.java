@@ -75,11 +75,10 @@ public class RoleDaoImpl implements RoleDao {
     }
 
     private Role extractRoleFromResultSet(ResultSet resultSet) throws SQLException {
-        Role role = new Role();
-        role.setId(resultSet.getLong(ID));
-        role.setName(resultSet.getString(NAME));
-
-        return role;
+        return Role.builder()
+                .setId(resultSet.getLong(ID))
+                .setName(resultSet.getString(NAME))
+                .build();
     }
 
     @Override

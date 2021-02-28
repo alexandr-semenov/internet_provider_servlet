@@ -106,11 +106,10 @@ public class TariffOptionDaoImpl implements TariffOptionDao {
     }
 
     private TariffOption extractTariffOptionFromResultSet(ResultSet resultSet) throws SQLException {
-        TariffOption tariffOption = new TariffOption();
-        tariffOption.setId(resultSet.getLong(ID));
-        tariffOption.setItem(resultSet.getString(ITEM));
-
-        return tariffOption;
+        return TariffOption.builder()
+                .setId(resultSet.getLong(ID))
+                .setItem(resultSet.getString(ITEM))
+                .build();
     }
 
     @Override

@@ -114,11 +114,10 @@ public class AccountDaoImpl implements AccountDao {
     }
 
     private Account extractAccountFromResultSet(ResultSet resultSet) throws SQLException {
-        Account account = new Account();
-        account.setId(resultSet.getLong(ID));
-        account.setAmount(resultSet.getDouble(AMOUNT));
-
-        return account;
+        return Account.builder()
+                .setId(resultSet.getLong(ID))
+                .setAmount(resultSet.getDouble(AMOUNT))
+                .build();
     }
 
     @Override

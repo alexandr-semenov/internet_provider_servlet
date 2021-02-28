@@ -107,12 +107,11 @@ public class ProductDaoImpl implements ProductDao{
     }
 
     private Product extractProductFromResultSet(ResultSet resultSet) throws SQLException, DBException {
-        Product product = new Product();
-        product.setId(resultSet.getLong(ID));
-        product.setName(resultSet.getString(NAME));
-        product.setTariffs(tariffDao.findTariffsByProduct(resultSet.getLong(ID)));
-
-        return product;
+        return Product.builder()
+                .setId(resultSet.getLong(ID))
+                .setName(resultSet.getString(NAME))
+                .setTariffs(tariffDao.findTariffsByProduct(resultSet.getLong(ID)))
+                .build();
     }
 
     @Override

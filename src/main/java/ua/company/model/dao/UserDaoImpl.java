@@ -193,16 +193,15 @@ public class UserDaoImpl implements UserDao {
     }
 
     private User extractUserFromResultSet(ResultSet resultSet) throws SQLException, ApiException, DBException {
-        User user = new User();
-        user.setId(resultSet.getLong(ID));
-        user.setUsername(resultSet.getString(USERNAME));
-        user.setPassword(resultSet.getString(PASSWORD));
-        user.setActive(resultSet.getBoolean(ACTIVE));
-        user.setRole(roleDao.findById(resultSet.getInt(ROLE_ID)));
-        user.setSubscription(subscriptionDao.findByUserId(resultSet.getLong(ID)));
-        user.setAccount(accountDao.findByUser(resultSet.getLong(ID)));
-
-        return user;
+        return User.builder()
+                .setId(resultSet.getLong(ID))
+                .setUsername(resultSet.getString(USERNAME))
+                .setPassword(resultSet.getString(PASSWORD))
+                .setActive(resultSet.getBoolean(ACTIVE))
+                .setRole(roleDao.findById(resultSet.getInt(ROLE_ID)))
+                .setSubscription(subscriptionDao.findByUserId(resultSet.getLong(ID)))
+                .setAccount(accountDao.findByUser(resultSet.getLong(ID)))
+                .build();
     }
 
     @Override
